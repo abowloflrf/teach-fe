@@ -1,0 +1,6 @@
+a {
+    color: inherit;
+}
+.ivu-menu-vertical.ivu-menu-light:after {
+    height: 100vh;
+}

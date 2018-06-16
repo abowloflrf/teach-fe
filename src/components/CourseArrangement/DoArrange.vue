@@ -1,5 +1,8 @@
 <template>
-    <router-view/>
+    <div>
+        <h1>自动排课</h1>
+
+    </div>
 </template>
 
 <script>
