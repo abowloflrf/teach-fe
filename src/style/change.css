@@ -4,3 +4,7 @@ a {
 .ivu-menu-vertical.ivu-menu-light:after {
     height: 100vh;
 }
+
+.ivu-table td {
+    height: 80px;
+}
