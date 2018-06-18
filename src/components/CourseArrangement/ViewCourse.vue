@@ -5,13 +5,13 @@
             <Option v-for="ty in typeList" :value="ty.value" :key="ty.value">{{ ty.label }}</Option>
         </Select>
         <Select v-model="selectedTeacher" style="width:100px">
-            <Option v-for="te in teacherList" :value="te.value" :key="te.value">{{ te.label }}</Option>
+            <Option v-for="te in teacherList" :value="te.id" :key="te.id">{{ te.name }}</Option>
         </Select>
-        <Select v-model="selectedCourse" style="width:150px">
-            <Option v-for="co in courseList" :value="co.value" :key="co.value">{{ co.label }}</Option>
+        <Select v-model="selectedClassroom" style="width:150px">
+            <Option v-for="cr in classroomList" :value="cr.id" :key="cr.id">{{ cr.name }}</Option>
         </Select>
-        <Select v-model="selectedClass" style="width:100px">
-            <Option v-for="cl in classList" :value="cl.value" :key="cl.value">{{ cl.label }}</Option>
+        <Select v-model="selectedClass" style="width:150px">
+            <Option v-for="cl in classList" :value="cl.id" :key="cl.id">{{ cl.name }}</Option>
         </Select>
         <Button type="default" @click="fetchTableData">查看</Button>
         <Table border :columns="col" :data="awesomeCourseList" :loading="isLoading"></Table>
@@ -108,7 +108,7 @@ export default {
                 },
                 {
                     value: 1,
-                    label: "按课程显示"
+                    label: "按教室显示"
                 },
                 {
                     value: 2,
@@ -116,41 +116,58 @@ export default {
                 }
             ],
             selectedTeacher: 1,
-            teacherList: [
-                {
-                    value: 1,
-                    label: "老师A"
-                },
-                {
-                    value: 2,
-                    label: "老师B"
-                }
-            ],
-            selectedCourse: 1,
-            courseList: [
-                {
-                    value: 1,
-                    label: "课程A"
-                },
-                {
-                    value: 2,
-                    label: "课程B"
-                }
-            ],
+            teacherList: [],
+            selectedClassroom: 1,
+            classroomList: [],
             selectedClass: 1,
-            classList: [
-                {
-                    value: 1,
-                    label: "计1501"
-                },
-                {
-                    value: 2,
-                    label: "计1502"
-                }
-            ]
+            classList: []
         };
     },
     methods: {
+        clearCourseList() {
+            this.awesomeCourseList = [
+                {
+                    class: "1 (8:00-9:35)",
+                    mon: "",
+                    two: "",
+                    wed: "",
+                    thu: "",
+                    fri: ""
+                },
+                {
+                    class: "2 (9:55-11:30)",
+                    mon: "",
+                    two: "",
+                    wed: "",
+                    thu: "",
+                    fri: ""
+                },
+                {
+                    class: "3 (13:30-15:05)",
+                    mon: "",
+                    two: "",
+                    wed: "",
+                    thu: "",
+                    fri: ""
+                },
+                {
+                    class: "4 (15:20-16:55)",
+                    mon: "",
+                    two: "",
+                    wed: "",
+                    thu: "",
+                    fri: ""
+                },
+                {
+                    class: "5 (17:10-18:45)",
+                    mon: "",
+                    two: "",
+                    wed: "",
+                    thu: "",
+                    fri: ""
+                }
+            ];
+        },
         addCourseToList(day, slot, courseName) {
             var dayName = "";
             switch (day) {
@@ -176,18 +193,54 @@ export default {
         },
         fetchTableData() {
             var apiUrl = "";
-            if (this.selectType === 0) apiUrl = "/course/timetable/teacher/";
-            else if (this.selectType === 1)
+            var formData = new FormData();
+            if (this.selectType === 0) {
+                apiUrl = "/course/timetable/teacher/";
+                formData.append("tid", this.selectedTeacher);
+            } else if (this.selectType === 1) {
                 apiUrl = "/course/timetable/classroom/";
-            else if (this.selectType === 2) apiUrl = "/course/timetable/class/";
-            //cid rid tid
-            this.$Message.warning("查询中");
+                formData.append("rid", this.selectedClassroom);
+            } else if (this.selectType === 2) {
+                apiUrl = "/course/timetable/class/";
+                formData.append("cid", this.selectedClass);
+            }
+            this.clearCourseList();
+            this.isLoading = true;
+            this.$axios.post(apiUrl, formData).then(response => {
+                this.course = response.data.data;
+                this.course.forEach(c => {
+                    var showStr =
+                        c.course.full_name +
+                        "(" +
+                        c.course.teacher +
+                        ")" +
+                        "(" +
+                        c.course.week_str +
+                        ")";
+                    this.addCourseToList(c.day, c.slot, showStr);
+                });
+                this.isLoading = false;
+            });
         },
         doArrange() {
             this.$Message.warning("排课中");
         }
     },
     beforeMount() {
+        this.$axios.get("/course/list/class/").then(response => {
+            this.classList = response.data.data;
+            this.selectedClass = this.classList[0].id;
+        });
+        this.$axios.get("/course/list/classroom/").then(response => {
+            this.classroomList = response.data.data;
+            this.selectedClassroom = this.classroomList[0].id;
+        });
+        this.$axios.get("/course/list/teacher/").then(response => {
+            this.teacherList = response.data.data;
+            this.selectedTeacher = this.teacherList[0].id;
+        });
+
+        //获取课表数据
         this.isLoading = true;
         let formData = new FormData();
         formData.append("tid", 2);
@@ -203,6 +256,9 @@ export default {
                         ")" +
                         "(" +
                         c.course.week_str +
+                        ")" +
+                        "(" +
+                        c.classroom_name +
                         ")";
                     this.addCourseToList(c.day, c.slot, showStr);
                 });
