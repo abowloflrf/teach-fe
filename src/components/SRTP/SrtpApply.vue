@@ -29,7 +29,7 @@
             </FormItem>
             <FormItem label="指导老师">
                 <Select v-model="srtpTeacher" filterable>
-                    <Option v-for="item in teacherList" :value="item" :key="item">{{ item }}</Option>
+                    <Option v-for="item in teacherList" :value="item.id" :key="item.id">{{ item.name }}</Option>
                 </Select>
             </FormItem>
             <FormItem label="所有成员">
@@ -68,7 +68,7 @@ export default {
             srtpApplyFile: "",
             srtpApplyFileName: "",
             uploadedFiles: [],
-            teacherList: [2],
+            teacherList: [],
             postLoading: false,
             hasProject: false
         };
@@ -137,6 +137,10 @@ export default {
             if (Object.keys(response.data).length != 0) {
                 this.hasProject = true;
             }
+        });
+        //获取所有指导教师列表
+        this.$axios.get("/api/teachers").then(response => {
+            this.teacherList = response.data;
         });
     }
 };

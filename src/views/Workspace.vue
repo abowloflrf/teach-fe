@@ -26,17 +26,14 @@
                         <Submenu name="1" v-if="currentUser.role===3">
                             <template slot="title">
                                 <Icon type="ios-navigate"></Icon>
-                                排课管理
+                                自动排课
                             </template>
-                            <router-link to="/workspace/do-arrange">
-                                <MenuItem name="1-0">自动排课</MenuItem>
-                            </router-link>
                             <router-link to="/workspace/view-course">
-                                <MenuItem name="1-1">查看结果</MenuItem>
+                                <MenuItem name="1-0">查看课表</MenuItem>
                             </router-link>
                         </Submenu>
 
-                        <Submenu name="2">
+                        <Submenu name="2" v-if="currentUser.role===3||currentUser.role===1">
                             <template slot="title">
                                 <Icon type="ios-keypad"></Icon>
                                 SRTP 管理

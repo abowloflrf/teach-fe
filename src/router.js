@@ -46,10 +46,6 @@ export default new Router({
                     component: BlankSpace
                 },
                 {
-                    path: "do-arrange",
-                    component: DoArrange
-                },
-                {
                     path: "view-course",
                     component: ViewCourse
                 },

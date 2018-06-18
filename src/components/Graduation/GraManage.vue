@@ -29,7 +29,8 @@
                 <p class="time">项目申请</p>
                 <div class="content">
                     <p v-if="graduation.status>1&&graduation.task_file!=''">任务书：
-                        <a href="">{{graduation.task_file}}</a>
+                        <DownloadFile :fileId="graduation.task_file"></DownloadFile>
+                        <!-- <a href="">{{graduation.task_file}}</a> -->
                     </p>
                     <p v-else>等待老师审核上传任务书</p>
                 </div>
@@ -38,7 +39,8 @@
                 <p class="time">开题管理</p>
                 <div class="content">
                     <p v-if="graduation.start_file!=''">已上传：
-                        <a href="">{{graduation.start_file}}</a>
+                        <DownloadFile :fileId="graduation.start_file"></DownloadFile>
+                        <!-- <a href="">{{graduation.start_file}}</a> -->
                     </p>
                     <Form v-if="graduation.status==2">
                         <FormItem>
@@ -55,7 +57,8 @@
                 <p class="time">中期管理</p>
                 <div class="content">
                     <p v-if="graduation.status>3&graduation.middle_file!=''">已上传：
-                        <a href="">{{graduation.middle_file}}</a>
+                        <DownloadFile :fileId="graduation.start_file"></DownloadFile>
+                        <!-- <a href="">{{graduation.start_file}}</a> -->
                     </p>
                     <Form v-if="graduation.status==3">
                         <FormItem>
@@ -71,7 +74,8 @@
                 <p class="time">结题管理</p>
                 <div class="content">
                     <p v-if="graduation.status==5&&graduation.end_file!=''">已上传：
-                        <a href="">{{graduation.end_file}}</a>
+                        <DownloadFile :fileId="graduation.end_file"></DownloadFile>
+                        <!-- <a href="">{{graduation.end_file}}</a> -->
                     </p>
                     <Form v-if="graduation.status==4">
                         <FormItem>
@@ -89,10 +93,11 @@
 
 <script>
 import UploadFile from "../UploadFile.vue";
-
+import DownloadFile from "../DownloadFile.vue";
 export default {
     components: {
-        UploadFile
+        UploadFile,
+        DownloadFile
     },
     data() {
         return {

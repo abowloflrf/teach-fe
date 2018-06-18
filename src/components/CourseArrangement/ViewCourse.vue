@@ -16,7 +16,7 @@
         <Button type="default" @click="fetchTableData">查看</Button>
         <Table border :columns="col" :data="awesomeCourseList" :loading="isLoading"></Table>
         <br><br>
-        <Button type="primary" @click="doArrange">一键排课</Button>
+        <Button type="primary" @click="doArrange" :loading="isSubmitButtonLoading">一键排课</Button>
     </div>
 </template>
 <script>
@@ -100,6 +100,7 @@ export default {
                 }
             ],
             isLoading: false,
+            isSubmitButtonLoading: false,
             selectType: 0,
             typeList: [
                 {
@@ -223,7 +224,22 @@ export default {
             });
         },
         doArrange() {
-            this.$Message.warning("排课中");
+            this.isSubmitButtonLoading = true;
+            this.clearCourseList();
+            let formData = new FormData();
+            formData.append("week", 4);
+            formData.append("day", 5);
+            formData.append("slot", 5);
+            this.$axios
+                .post("/course/assignment/execute/", formData)
+                .then(response => {
+                    this.isSubmitButtonLoading = false;
+                    this.$Message.success("排课成功，请重新选择选项查看课表");
+                })
+                .catch(error => {
+                    this.isSubmitButtonLoading = false;
+                    this.$Message.error("排课失败");
+                });
         }
     },
     beforeMount() {
@@ -239,31 +255,6 @@ export default {
             this.teacherList = response.data.data;
             this.selectedTeacher = this.teacherList[0].id;
         });
-
-        //获取课表数据
-        this.isLoading = true;
-        let formData = new FormData();
-        formData.append("tid", 2);
-        this.$axios
-            .post("/course/timetable/teacher/", formData)
-            .then(response => {
-                this.course = response.data.data;
-                this.course.forEach(c => {
-                    var showStr =
-                        c.course.full_name +
-                        "(" +
-                        c.course.teacher +
-                        ")" +
-                        "(" +
-                        c.course.week_str +
-                        ")" +
-                        "(" +
-                        c.classroom_name +
-                        ")";
-                    this.addCourseToList(c.day, c.slot, showStr);
-                });
-                this.isLoading = false;
-            });
     }
 };
 </script>

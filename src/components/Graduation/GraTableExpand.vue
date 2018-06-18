@@ -14,46 +14,56 @@
             <div v-if="row.status==2">
                 <h4>等待开题中：</h4>
                 <p>任务书：
-                    <a href="">{{row.task_file}}</a>
+                    <DownloadFile :fileId="row.task_file"></DownloadFile>
+                    <!-- <a href="">{{row.task_file}}</a> -->
                 </p>
             </div>
 
             <div v-if="row.status==3">
                 <h4>前期进行中：</h4>
                 <p>任务书：
-                    <a href="">{{row.task_file}}</a>
+                    <DownloadFile :fileId="row.task_file"></DownloadFile>
+                    <!-- <a href="">{{row.task_file}}</a> -->
                 </p>
                 <p>开题报告：
-                    <a href="">{{row.start_file}}</a>
+                    <DownloadFile :fileId="row.start_file"></DownloadFile>
+                    <!-- <a href="">{{row.start_file}}</a> -->
                 </p>
             </div>
 
             <div v-if="row.status==4">
                 <h4>后期进行中：</h4>
                 <p>任务书：
-                    <a href="">{{row.task_file}}</a>
+                    <DownloadFile :fileId="row.task_file"></DownloadFile>
+                    <!-- <a href="">{{row.task_file}}</a> -->
                 </p>
                 <p>开题报告：
-                    <a href="">{{row.start_file}}</a>
+                    <DownloadFile :fileId="row.start_file"></DownloadFile>
+                    <!-- <a href="">{{row.start_file}}</a> -->
                 </p>
                 <p>中期报告：
-                    <a href="">{{row.middle_file}}</a>
+                    <DownloadFile :fileId="row.middle_file"></DownloadFile>
+                    <!-- <a href="">{{row.middle_file}}</a> -->
                 </p>
             </div>
 
             <div v-if="row.status==5">
                 <h4>已结题：</h4>
                 <p>任务书：
-                    <a href="">{{row.task_file}}</a>
+                    <DownloadFile :fileId="row.task_file"></DownloadFile>
+                    <!-- <a href="">{{row.task_file}}</a> -->
                 </p>
                 <p>开题报告：
-                    <a href="">{{row.start_file}}</a>
+                    <DownloadFile :fileId="row.start_file"></DownloadFile>
+                    <!-- <a href="">{{row.start_file}}</a> -->
                 </p>
                 <p>中期报告：
-                    <a href="">{{row.middle_file}}</a>
+                    <DownloadFile :fileId="row.middle_file"></DownloadFile>
+                    <!-- <a href="">{{row.middle_file}}</a> -->
                 </p>
                 <p>结题材料：
-                    <a href="">{{row.end_file}}</a>
+                    <DownloadFile :fileId="row.end_file"></DownloadFile>
+                    <!-- <a href="">{{row.end_file}}</a> -->
                 </p>
             </div>
         </Row>
@@ -62,10 +72,12 @@
 
 <script>
 import UploadFile from "../UploadFile.vue";
+import DownloadFile from "../DownloadFile.vue";
 
 export default {
     components: {
-        UploadFile
+        UploadFile,
+        DownloadFile
     },
     props: {
         row: Object

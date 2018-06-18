@@ -30,7 +30,8 @@
                 <p class="time">中期管理</p>
                 <div class="content">
                     <p v-if="teach.middle_file!=''">已上传：
-                        <a href="">{{teach.middle_file}}</a>
+                        <DownloadFile :fileId="teach.middle_file"></DownloadFile>
+                        <!-- <a href="">{{teach.middle_file}}</a> -->
                     </p>
                     <Form v-if="teach.status==2">
                         <FormItem>
@@ -52,7 +53,8 @@
                 <p class="time">结题管理</p>
                 <div class="content">
                     <p v-if="teach.end_file!=''">已上传：
-                        <a href="">{{teach.end_file}}</a>
+                        <DownloadFile :fileId="teach.end_file"></DownloadFile>
+                        <!-- <a href="">{{teach.end_file}}</a> -->
                     </p>
                     <Form v-if="teach.status==4">
                         <FormItem>
@@ -76,10 +78,12 @@
 
 <script>
 import UploadFile from "../UploadFile.vue";
+import DownloadFile from "../DownloadFile.vue";
 
 export default {
     components: {
-        UploadFile
+        UploadFile,
+        DownloadFile
     },
     data() {
         return {

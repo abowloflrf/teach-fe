@@ -29,7 +29,8 @@
                 <p class="time">申请管理</p>
                 <div class="content">
                     <p v-if="srtp.apply_file!=''">已上传：
-                        <a href="">{{srtp.apply_file}}</a>
+                        <DownloadFile :fileId="srtp.apply_file"></DownloadFile>
+                        <!-- <a href="">{{srtp.apply_file}}</a> -->
                     </p>
                 </div>
             </TimelineItem>
@@ -37,9 +38,10 @@
                 <p class="time">中期管理</p>
                 <div class="content">
                     <p v-if="srtp.middle_file!=''">已上传：
-                        <a href="">{{srtp.middle_file}}</a>
+                        <DownloadFile :fileId="srtp.middle_file"></DownloadFile>
+                        <!-- <a href="">{{srtp.middle_file}}</a> -->
                     </p>
-                    <Form v-if="srtp.status<3">
+                    <Form v-if="srtp.status==2">
                         <FormItem>
                             <RadioGroup v-model="opMiddle">
                                 <Radio label="101">提交中期报告</Radio>
@@ -59,7 +61,8 @@
                 <p class="time">结题管理</p>
                 <div class="content">
                     <p v-if="srtp.end_file!=''">已上传：
-                        <a href="">{{srtp.end_file}}</a>
+                        <DownloadFile :fileId="srtp.end_file"></DownloadFile>
+                        <!-- <a href="">{{srtp.end_file}}</a> -->
                     </p>
                     <Form v-if="srtp.status==4||srtp.status==5">
                         <FormItem>
@@ -84,10 +87,12 @@
 
 <script>
 import UploadFile from "../UploadFile.vue";
+import DownloadFile from "../DownloadFile.vue";
 
 export default {
     components: {
-        UploadFile
+        UploadFile,
+        DownloadFile
     },
     data() {
         return {
