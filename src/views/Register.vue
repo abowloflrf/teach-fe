@@ -39,20 +39,20 @@ export default {
         return {
             name: "",
             number: "",
-            role: 0,
+            role: 1,
             password: "",
             confirmPassword: "",
             roleList: [
                 {
-                    value: 0,
+                    value: 1,
                     label: "学生"
                 },
                 {
-                    value: 1,
+                    value: 2,
                     label: "教师"
                 },
                 {
-                    value: 2,
+                    value: 3,
                     label: "秘书"
                 }
             ]
