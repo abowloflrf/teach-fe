@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 
 import Login from "./views/Login.vue";
+import Register from "./views/Register.vue";
 import Workspace from "./views/Workspace.vue";
 
 import BlankSpace from "./components/BlankSpace.vue";
@@ -35,6 +36,11 @@ export default new Router({
             path: "/login",
             name: "login",
             component: Login
+        },
+        {
+            path: "/register",
+            name: "register",
+            component: Register
         },
         {
             path: "/workspace",

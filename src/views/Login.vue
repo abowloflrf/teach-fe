@@ -10,7 +10,10 @@
                     <Input type="password" v-model="password"></Input>
                 </FormItem>
                 <FormItem>
-                    <Button @click="doLogin" type="primary">登录</Button>
+                    <Button @click="doLogin" type="primary" style="margin-right:10px">登录</Button>
+                    <router-link to="/register">
+                        <Button type="default">注册</Button>
+                    </router-link>
                 </FormItem>
             </Form>
         </Card>

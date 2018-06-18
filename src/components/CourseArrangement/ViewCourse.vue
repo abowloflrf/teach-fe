@@ -4,13 +4,13 @@
         <Select v-model="selectType" style="width:120px">
             <Option v-for="ty in typeList" :value="ty.value" :key="ty.value">{{ ty.label }}</Option>
         </Select>
-        <Select v-model="selectedTeacher" style="width:100px">
+        <Select v-model="selectedTeacher" style="width:100px" v-show="selectType===0">
             <Option v-for="te in teacherList" :value="te.id" :key="te.id">{{ te.name }}</Option>
         </Select>
-        <Select v-model="selectedClassroom" style="width:150px">
+        <Select v-model="selectedClassroom" style="width:150px" v-show="selectType===1">
             <Option v-for="cr in classroomList" :value="cr.id" :key="cr.id">{{ cr.name }}</Option>
         </Select>
-        <Select v-model="selectedClass" style="width:150px">
+        <Select v-model="selectedClass" style="width:150px" v-show="selectType===2">
             <Option v-for="cl in classList" :value="cl.id" :key="cl.id">{{ cl.name }}</Option>
         </Select>
         <Button type="default" @click="fetchTableData">查看</Button>
@@ -190,7 +190,7 @@ export default {
                 default:
                     break;
             }
-            this.awesomeCourseList[slot][dayName] = courseName;
+            this.awesomeCourseList[slot][dayName] += courseName + "\n";
         },
         fetchTableData() {
             var apiUrl = "";
