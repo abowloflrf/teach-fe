@@ -1,20 +1,23 @@
 <template>
     <div>
         <h1>排课结果</h1>
-        <Select v-model="selectType" style="width:120px">
-            <Option v-for="ty in typeList" :value="ty.value" :key="ty.value">{{ ty.label }}</Option>
-        </Select>
-        <Select v-model="selectedTeacher" style="width:100px" v-show="selectType===0">
-            <Option v-for="te in teacherList" :value="te.id" :key="te.id">{{ te.name }}</Option>
-        </Select>
-        <Select v-model="selectedClassroom" style="width:150px" v-show="selectType===1">
-            <Option v-for="cr in classroomList" :value="cr.id" :key="cr.id">{{ cr.name }}</Option>
-        </Select>
-        <Select v-model="selectedClass" style="width:150px" v-show="selectType===2">
-            <Option v-for="cl in classList" :value="cl.id" :key="cl.id">{{ cl.name }}</Option>
-        </Select>
-        <Button type="default" @click="fetchTableData">查看</Button>
-        <Table border :columns="col" :data="awesomeCourseList" :loading="isLoading"></Table>
+        <div>
+            <Select v-model="selectType" style="width:120px">
+                <Option v-for="ty in typeList" :value="ty.value" :key="ty.value">{{ ty.label }}</Option>
+            </Select>
+            <Select v-model="selectedTeacher" style="width:100px" filterable v-show="selectType===0">
+                <Option v-for="te in teacherList" :value="te.id" :key="te.id">{{ te.name }}</Option>
+            </Select>
+            <Select v-model="selectedClassroom" style="width:150px" filterable v-show="selectType===1">
+                <Option v-for="cr in classroomList" :value="cr.id" :key="cr.id">{{ cr.name }}</Option>
+            </Select>
+            <Select v-model="selectedClass" style="width:150px" filterable v-show="selectType===2">
+                <Option v-for="cl in classList" :value="cl.id" :key="cl.id">{{ cl.name }}</Option>
+            </Select>
+            <Button type="default" @click="fetchTableData">查看</Button>
+        </div>
+
+        <Table class="course-table" border :columns="col" :data="awesomeCourseList" :loading="isLoading"></Table>
         <br><br>
         <Button type="primary" @click="doArrange" :loading="isSubmitButtonLoading">一键排课</Button>
     </div>
@@ -33,27 +36,27 @@ export default {
                 {
                     title: "周一",
                     key: "mon",
-                    width: 200
+                    type: "html"
                 },
                 {
                     title: "周二",
                     key: "two",
-                    width: 200
+                    type: "html"
                 },
                 {
                     title: "周三",
                     key: "wed",
-                    width: 200
+                    type: "html"
                 },
                 {
                     title: "周四",
                     key: "thu",
-                    width: 200
+                    type: "html"
                 },
                 {
                     title: "周五",
                     key: "fri",
-                    width: 200
+                    type: "html"
                 }
             ],
             course: Object,
@@ -190,7 +193,7 @@ export default {
                 default:
                     break;
             }
-            this.awesomeCourseList[slot][dayName] += courseName + "\n";
+            this.awesomeCourseList[slot][dayName] += courseName;
         },
         fetchTableData() {
             var apiUrl = "";
@@ -211,11 +214,14 @@ export default {
                 this.course = response.data.data;
                 this.course.forEach(c => {
                     var showStr =
+                        "<b>" +
                         c.course.full_name +
-                        "(" +
+                        "</b></br>" +
                         c.course.teacher +
-                        ")" +
+                        "</br>" +
                         "(" +
+                        c.classroom_name +
+                        "," +
                         c.course.week_str +
                         ")";
                     this.addCourseToList(c.day, c.slot, showStr);
@@ -262,6 +268,9 @@ export default {
 <style>
 .ivu-select {
     margin: 10px 10px 10px 0;
+}
+.course-table .ivu-table-cell {
+    text-align: center;
 }
 </style>
 

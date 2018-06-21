@@ -22,7 +22,7 @@
         </Row>
         <Row>
             <div v-if="row.status==1">
-                <h4>申请审核中：</h4>
+                <h4>申请审核中</h4>
                 <p>申请材料：
                     <DownloadFile :fileId="row.apply_file"></DownloadFile>
                     <!-- <a href="">{{row.apply_file}}</a> -->
@@ -36,12 +36,12 @@
                         </RadioGroup>
                     </FormItem>
                     <Button type="primary" size="small" @click="processRequest(201)">通过创建申请</Button>
-                    <Button type="error" size="small" @click="processRequest(204)">驳回申请</Button>
+                    <!-- <Button type="error" size="small" @click="processRequest(204)">驳回申请</Button> -->
                 </Form>
             </div>
 
             <div v-if="row.status==2">
-                <h4>前期进行中：</h4>
+                <h4>前期进行中</h4>
                 <p>申请材料：
                     <DownloadFile :fileId="row.apply_file"></DownloadFile>
                     <!-- <a href="">{{row.apply_file}}</a> -->
@@ -49,7 +49,7 @@
             </div>
 
             <div v-if="row.status==3">
-                <h4>中期审核中：</h4>
+                <h4>中期审核中</h4>
                 <p>申请材料：
                     <DownloadFile :fileId="row.apply_file"></DownloadFile>
                     <!-- <a href="">{{row.apply_file}}</a> -->
@@ -63,7 +63,7 @@
             </div>
 
             <div v-if="row.status==4">
-                <h4>后期进行中：</h4>
+                <h4>后期进行中</h4>
                 <p>申请材料：
                     <DownloadFile :fileId="row.apply_file"></DownloadFile>
                     <!-- <a href="">{{row.apply_file}}</a> -->
@@ -75,7 +75,7 @@
             </div>
 
             <div v-if="row.status==5">
-                <h4>延期进行中：</h4>
+                <h4>延期进行中</h4>
                 <p>申请材料：
                     <DownloadFile :fileId="row.apply_file"></DownloadFile>
                     <!-- <a href="">{{row.apply_file}}</a> -->
@@ -87,7 +87,7 @@
             </div>
 
             <div v-if="row.status==6">
-                <h4>结题审核中：</h4>
+                <h4>结题审核中</h4>
                 <p>申请材料：
                     <DownloadFile :fileId="row.apply_file"></DownloadFile>
                     <!-- <a href="">{{row.apply_file}}</a> -->
@@ -105,7 +105,15 @@
             </div>
 
             <div v-if="row.status==7">
-                <h4>已结题：</h4>
+                <h4>已结题</h4>
+                <p>申请材料：
+                    <DownloadFile :fileId="row.apply_file"></DownloadFile>
+                    <!-- <a href="">{{row.apply_file}}</a> -->
+                </p>
+                <p>中期材料：
+                    <DownloadFile :fileId="row.middle_file"></DownloadFile>
+                    <!-- <a href="">{{row.middle_file}}</a> -->
+                </p>
                 <p>结题材料：
                     <DownloadFile :fileId="row.end_file"></DownloadFile>
                     <!-- <a href="">{{row.end_file}}</a> -->

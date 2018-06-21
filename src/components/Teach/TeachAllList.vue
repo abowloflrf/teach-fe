@@ -26,6 +26,11 @@ export default {
                     key: "title"
                 },
                 {
+                    title: "负责教师",
+                    key: "teacher",
+                    width: 120
+                },
+                {
                     title: "项目年度",
                     key: "year",
                     width: 100,

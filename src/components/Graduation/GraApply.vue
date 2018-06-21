@@ -9,11 +9,11 @@
                 <Input v-model="graduationDesc" type="textarea" :autosize="{minRows: 2,maxRows: 5}"></Input>
             </FormItem>
             <FormItem label="毕业年">
-                <DatePicker v-model="graduationYear" type="year" placeholder="选择年份"></DatePicker>
+                <DatePicker v-model="graduationYear" type="year" placeholder="选择年份" style="width:150px"></DatePicker>
             </FormItem>
             <FormItem label="指导老师">
-                <Select v-model="graduationTeacher" filterable>
-                    <Option v-for="item in teacherList" :value="item" :key="item">{{ item }}</Option>
+                <Select v-model="graduationTeacher" style="width:150px">
+                    <Option v-for="item in teacherList" :value="item.id" :key="item.id">{{ item.name }}</Option>
                 </Select>
             </FormItem>
             <Button type="primary" @click="submitApply" :loading="postLoading">提交申请</Button>
@@ -29,7 +29,7 @@ export default {
             graduationYear: "",
             graduationDesc: "",
             graduationTeacher: null,
-            teacherList: [2],
+            teacherList: [],
             postLoading: false,
             hasGraduation: false
         };
@@ -69,6 +69,10 @@ export default {
         }
     },
     beforeMount() {
+        //获取所有指导教师列表
+        this.$axios.get("/api/teachers").then(response => {
+            this.teacherList = response.data;
+        });
         this.$axios
             .get("/api/student/graduation")
             .then(response => {

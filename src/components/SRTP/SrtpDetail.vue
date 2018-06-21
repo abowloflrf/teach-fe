@@ -14,11 +14,11 @@
                     <p>
                         <b>级别：</b>{{srtpLevel}}</p>
                     <p>
-                        <b>负责人：</b>{{srtp.leader_id}}</p>
+                        <b>负责人：</b>{{srtp.leader}}</p>
                     <p>
                         <b>成员：</b>{{srtp.members}}</p>
                     <p>
-                        <b>指导教师：</b>{{srtp.teacher_id}}</p>
+                        <b>指导教师：</b>{{srtp.teacher}}</p>
                     <p>
                         <b>当前进度：</b>
                         <Tag color="green">{{srtpStatus}}</Tag>
@@ -32,6 +32,10 @@
                         <DownloadFile :fileId="srtp.apply_file"></DownloadFile>
                         <!-- <a href="">{{srtp.apply_file}}</a> -->
                     </p>
+                    <Form v-if="srtp.status==1">
+                        <UploadFile buttonTitle="更新申请材料" v-model="updateFile"></UploadFile>
+                        <Button type="primary" @click="submitUpdate(1)" v-if="updateFile!=''">提交更新</Button>
+                    </Form>
                 </div>
             </TimelineItem>
             <TimelineItem>
@@ -54,6 +58,10 @@
                         <FormItem>
                             <Button type="primary" @click="submitMiddle">提交</Button>
                         </FormItem>
+                    </Form>
+                    <Form v-if="srtp.status==3">
+                        <UploadFile buttonTitle="更新中期材料" v-model="updateFile"></UploadFile>
+                        <Button type="primary" @click="submitUpdate(2)" v-if="updateFile!=''">提交更新</Button>
                     </Form>
                 </div>
             </TimelineItem>
@@ -79,6 +87,10 @@
                             <Button type="primary" @click="submitEnd">提交</Button>
                         </FormItem>
                     </Form>
+                    <Form v-if="srtp.status==6">
+                        <UploadFile buttonTitle="更新结题材料" v-model="updateFile"></UploadFile>
+                        <Button type="primary" @click="submitUpdate(3)">提交更新</Button>
+                    </Form>
                 </div>
             </TimelineItem>
         </Timeline>
@@ -103,6 +115,7 @@ export default {
                 level: 1,
                 status: "1"
             },
+            updateFile: "",
             opMiddle: "101",
             middleFile: "",
             opEnd: "104",
@@ -118,6 +131,28 @@ export default {
                 })
                 .catch(error => {
                     console.error(error);
+                });
+        },
+        submitUpdate(fileType) {
+            //1-申请 2-中期 3-结题
+            if (this.updateFile == "") {
+                this.$Message.error("请上传要更新的文件");
+                return false;
+            }
+            this.$axios
+                .patch("/api/student/srtp/update-file", {
+                    type: fileType,
+                    file: this.updateFile
+                })
+                .then(response => {
+                    if (response.data.status == "OK")
+                        this.$Message.success("材料更新成功");
+                    else this.$Message.error("材料更新失败");
+                    this.fetchData();
+                })
+                .catch(error => {
+                    this.$Message.error("材料更新出错");
+                    this.fetchData();
                 });
         },
         submitMiddle() {
